@@ -722,7 +722,7 @@ function post(id, verdict, note, then, images, media) {
                  if (verdict === "UNDO") delete STATE[id];
                  else STATE[id] = {verdict, note: note || "", media: j.media || [], ts: j.ts || "", seq: ++SEQ};
                  then && then(); })
-    .catch(() => banner("verdict NOT saved — server error; nothing advanced"));
+    .catch(() => banner("verdict NOT saved: server error, nothing advanced"));
 }
 
 function card(it) {
@@ -744,12 +744,12 @@ function card(it) {
     '<div class="links">' + it.links.map(l =>
         '<a href="' + l.h + '" target="_blank" rel="noopener">' + l.t.replace(/</g,"&lt;") + ' ⧉</a>'
       ).join("") +
-      '<button class="bDel" title="hide this card everywhere (tombstone by id) — click, then click again to confirm">🗑 Delete</button>' +
+      '<button class="bDel" title="hide this card everywhere (tombstone by id). Click, then click again to confirm">🗑 Delete</button>' +
     '</div>' +
     '<div class="acts">' +
       '<button class="bY">YES (Y)</button><button class="bN">NO (N)</button>' +
       '<button class="bF">FLAG (F)</button><button class="bH">HOLD (H)</button><button class="bU">UNDO (U)</button>' +
-      '<textarea class="note' + (it.id === noteId ? " show" : "") + '" rows="4" placeholder="note — paste a screenshot here · Submit or Ctrl+Enter pins · Esc skips">' +
+      '<textarea class="note' + (it.id === noteId ? " show" : "") + '" rows="4" placeholder="note: paste a screenshot here. Submit or Ctrl+Enter pins, Esc skips">' +
         note.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;") + '</textarea>' +
       '<div class="chips"></div>' +
       '<div class="noteacts' + (it.id === noteId ? " show" : "") + '">' +
@@ -847,7 +847,7 @@ function render(keepScroll) {
   const list = document.getElementById("list");
   list.innerHTML = "";
   const v = vis();
-  if (!v.length) { list.innerHTML = '<div class="empty">nothing in “' + filter + '” — pick another filter (1-5)</div>'; return; }
+  if (!v.length) { list.innerHTML = '<div class="empty">nothing in "' + filter + '", pick another filter (1-5)</div>'; return; }
   if (!focusId || !v.some(it => it.id === focusId)) focusId = v[0].id;
   const grouped = !DECIDED.has(filter);           // family headers only in the pending feed
   let fam = null;
@@ -897,7 +897,7 @@ function doDelete(id, lab) {
       delete STATE[id];
       if (lastVerdict === id) lastVerdict = null;
       if (focusId === id) focusId = null;
-      toast("🗑 " + (lab || "card") + " hidden — restore by appending an undelete line", "#6a2d2d");
+      toast("🗑 " + (lab || "card") + " hidden. Restore by appending an undelete line", "#6a2d2d");
       render(true);
       const now = vis();
       if (!now.length) { render(); return; }
@@ -906,7 +906,7 @@ function doDelete(id, lab) {
       const el = document.querySelector('.card[data-id="' + focusId + '"]');
       if (el) el.scrollIntoView({block:"center"});
     })
-    .catch(() => banner("delete failed — network/server; nothing removed"));
+    .catch(() => banner("delete failed: network or server, nothing removed"));
 }
 
 let lastVerdict = null;
@@ -922,7 +922,7 @@ function verdict(v) {
     const bg = {YES:"#2d6a2d", FLAG:"#6a5a1a", NO:"#6a2d2d", HOLD:"#473a6a"}[v];
     post(id, v, (STATE[id] && STATE[id].note) || "", () => { lastVerdict = id; noteId = id;
       render(true);
-      toast(labelOf(id) + " → " + v + " — note/screenshot optional · Submit pins · Esc skips", bg);
+      toast(labelOf(id) + " → " + v + ". Note or screenshot optional, Submit pins, Esc skips", bg);
       openBox(id, v === "FLAG"); });
     return;
   }
@@ -1067,13 +1067,13 @@ def make_demo(root):
             crop.speckle(rng, 60)
             crop.save(d / f"cluster-{ci:02d}.png")
             key = hashlib.sha256(f"{deck_name}/{ci}:{pts}".encode("utf-8")).hexdigest()[:16]
-            cards.append({"key": key, "label": f"cluster {ci:02d} — {shape}",
-                          "summary": f"**{n}** instances detected · judge: are they all really a {shape}?",
+            cards.append({"key": key, "label": f"cluster {ci:02d}: {shape}",
+                          "summary": f"**{n}** instances detected. Judge: are they all really a {shape}?",
                           "images": [f"cluster-{ci:02d}.png"],
                           "links": [{"label": "Full sheet", "file": "sheet.png"}]})
         sheet.save(d / "sheet.png")
         (d / SIDECAR).write_text(json.dumps(
-            {"title": f"Demo — {deck_name} detector output", "cards": cards},
+            {"title": f"Demo: {deck_name} detector output", "cards": cards},
             indent=2) + "\n", encoding="utf-8")
     loose = root / "loose-screenshots"
     loose.mkdir(parents=True, exist_ok=True)
