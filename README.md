@@ -13,23 +13,17 @@ Built for the human-in-the-loop step of ML dataset curation, where the labeling
 platforms are heavyweight and the actual job is to look at an image, call it,
 say why, and never lose the answer.
 
+![demo](docs/demo.gif)
+
 ## Quickstart
-
-```
-python3 docket.py demo
-```
-
-generates a synthetic detector-output fixture (two decks of clustered shape
-candidates with a few planted mismatches, plus a bare folder of images) and
-serves it at `http://127.0.0.1:8017/`.
-
-To review your own images:
 
 ```
 python3 docket.py serve ~/some/folder/of/images
 ```
 
-Any folder containing images becomes a deck; every image becomes a card.
+Any folder containing images becomes a deck; every image becomes a card. The
+GIF above is the bundled synthetic fixture; `python3 docket.py demo` generates
+and serves it.
 
 ## Decks and cards
 
