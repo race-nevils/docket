@@ -5,13 +5,14 @@ so it runs from a checkout with the Python you already have.
 
 Point it at folders of images (detector output, dataset candidates, screenshots,
 render diffs, anything a human needs to judge) and work through them at keyboard
-speed: **Y** yes, **N** no, **F** flag, **H** hold, **U** undo. Every verdict is
-appended to a JSONL log next to a frozen, content-addressed copy of the exact
-pixels you judged.
+speed: **Y** yes, **N** no, **F** flag, **H** hold, **U** undo. Every verdict
+lands in an append-only JSONL log beside a frozen, content-addressed copy of the
+exact pixels you judged, and any verdict can carry a note with screenshots
+pasted straight into it.
 
 Built for the human-in-the-loop step of ML dataset curation, where the labeling
-platforms are heavyweight and the actual job is "look at this, say yes or no,
-and never lose the answer."
+platforms are heavyweight and the actual job is to look at an image, call it,
+say why, and never lose the answer.
 
 ## Quickstart
 
@@ -78,6 +79,8 @@ Field notes:
 Sidecars are discovered at any depth under the roots you pass. A described
 deck's subtree is not walked further, so per-card asset folders never become
 decks of their own. Hidden directories and `*-data` directories are skipped.
+Broken sidecars, missing files, and duplicate ids surface as warnings at the
+bottom of the page and in `check`.
 
 ## What a verdict writes
 
@@ -86,7 +89,7 @@ input roots. The input tree is read-only to this tool.
 
 ```
 docket-data/
-  verdicts.jsonl      # append-only: one line per keystroke, fsync'd
+  verdicts.jsonl      # append-only: one line per verdict, fsync'd
   evidence/           # frozen copies of judged images, named by sha256
   note-media/         # screenshots pasted into notes
   deleted.jsonl       # append-only tombstones
@@ -96,7 +99,8 @@ docket-data/
 A verdict line:
 
 ```json
-{"id": "a3f9c2e8b1d40767", "verdict": "YES", "note": "", "ts": "2026-08-01T12:34:56.789-05:00",
+{"id": "a3f9c2e8b1d40767", "verdict": "YES", "note": "bolt 3 is a rivet", "ts": "2026-08-01T12:34:56.789-05:00",
+ "note_media": ["a3f9c2e8b1d40767-9f2c41d0a7b3.png"],
  "evidence": {"deck": "batch-12", "label": "cluster 04, anchor bolt",
               "images": [{"rel": "batch-12/cluster-04/zoom.png",
                           "sha256": "…", "file": "….png"}]}}
@@ -120,13 +124,19 @@ Three guarantees, enforced by construction:
 
 - **Tabs and keys 1 through 5.** Pending, flagged, yes, no, hold. Pending keeps
   deck order with deck headers; verdicted tabs sort most-recent-first.
-- **Notes.** Every verdict pauses for an optional note; paste screenshots
-  straight into the note box and they are stored server-side and re-attached on
-  reload. `Ctrl+Enter` pins, `Esc` skips, and the verdict itself is already saved
-  either way.
+- **Notes and screenshots.** Every verdict pauses for an optional note, and the
+  verdict itself is already saved before the box opens, so walking away costs
+  nothing. Paste screenshots straight into the note box; they are stored
+  server-side in `note-media/` and re-attached when you reload. `Ctrl+Enter` or
+  Submit pins the note to the card, `Esc` skips. Writing a note on a card with
+  no verdict yet records it as FLAG.
 - **FLAG vs HOLD.** Flag means "this needs rework, with my feedback attached."
   Hold means "real, but not now." Both keep the card out of pending while
   leaving it undecided.
+- **Undo follows the work.** `U` retracts the focused card's verdict, or, when
+  the focused card has none, the last verdict you cast. In the pending view a
+  judged card vanishes the moment you key it, so undoing your last call never
+  depends on the card still being on screen.
 - The page reloads itself when the server restarts (boot-id poll), so
   regenerating decks is just: restart the server, keep the tab.
 
