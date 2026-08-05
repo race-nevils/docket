@@ -22,8 +22,8 @@ python3 docket.py serve ~/some/folder/of/images
 ```
 
 Any folder containing images becomes a deck; every image becomes a card. The
-GIF above is the bundled synthetic fixture; `python3 docket.py demo` generates
-and serves it.
+GIF above shows the synthetic fixture; `python3 docket.py demo` generates and
+serves it.
 
 ## Decks and cards
 
