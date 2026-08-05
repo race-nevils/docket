@@ -1,7 +1,6 @@
 # docket
 
-A keyboard-first review bench for visual evidence. One Python file, stdlib only,
-so it runs from a checkout with the Python you already have.
+A keyboard-first review bench for visual evidence. One Python file, stdlib only.
 
 Point it at folders of images (detector output, dataset candidates, screenshots,
 render diffs, anything a human needs to judge) and work through them at keyboard
@@ -22,10 +21,9 @@ python3 docket.py demo
 
 generates a synthetic detector-output fixture (two decks of clustered shape
 candidates with a few planted mismatches, plus a bare folder of images) and
-serves it at `http://127.0.0.1:8017/`. Judge away. A couple of the clusters
-contain an intruder shape, so the demo review has real calls in it.
+serves it at `http://127.0.0.1:8017/`.
 
-To review your own images with zero setup:
+To review your own images:
 
 ```
 python3 docket.py serve ~/some/folder/of/images
@@ -68,7 +66,7 @@ Field notes:
   path. **Make the key a content hash of what the card shows** (as the demo
   does) and the id survives re-emitting the deck: an unchanged card keeps its
   verdict, a genuinely changed card gets a fresh id and shows up as pending
-  again. That property is the backbone of an iterate-and-re-review loop.
+  again.
 - `summary` is plain text; `` `code` `` and `**bold**` render.
 - `images` are inlined on the card, thumbnailed when [Pillow](https://pypi.org/project/pillow/)
   is installed and served whole otherwise. Click any image for full resolution.
@@ -125,8 +123,8 @@ Three guarantees, enforced by construction:
 - **Tabs and keys 1 through 5.** Pending, flagged, yes, no, hold. Pending keeps
   deck order with deck headers; verdicted tabs sort most-recent-first.
 - **Notes and screenshots.** Every verdict pauses for an optional note, and the
-  verdict itself is already saved before the box opens, so walking away costs
-  nothing. Paste screenshots straight into the note box; they are stored
+  verdict itself is already saved before the box opens. Paste screenshots
+  straight into the note box; they are stored
   server-side in `note-media/` and re-attached when you reload. `Ctrl+Enter` or
   Submit pins the note to the card, `Esc` skips. Writing a note on a card with
   no verdict yet records it as FLAG.
@@ -164,8 +162,8 @@ guards, and the note-media round trip.
 ## Non-goals
 
 Multi-user auth, cloud sync, annotation geometry (boxes and polygons), model
-training. This is the judgment step, done well, in one file you can read in a
-sitting. The server binds to localhost by default and trusts its operator, so
+training. This is the judgment step, in one file you can read in a sitting.
+The server binds to localhost by default and trusts its operator, so
 put it behind your own auth if you expose it.
 
 ## License
