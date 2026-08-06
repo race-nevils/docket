@@ -547,26 +547,26 @@ def render_page(items, warnings, state, cfg):
 PAGE = r"""<!doctype html>
 <html><head><meta charset="utf-8"><title>docket</title>
 <style>
-  :root { --bg:#16181c; --card:#1f2229; --card2:#262a33; --txt:#d8dce4; --dim:#8b93a3;
-          --yes:#3fa650; --no:#d04f4f; --flag:#d9a82d; --hold:#9a7bd4; --focus:#7aa2ff; }
+  :root { --bg:#0d1117; --card:#161b22; --card2:#21262d; --txt:#e6edf3; --dim:#8b949e;
+          --yes:#3fb950; --no:#f85149; --flag:#d29922; --hold:#a371f7; --focus:#58a6ff; }
   * { box-sizing:border-box; }
   body { margin:0; background:var(--bg); color:var(--txt);
          font:15px/1.45 system-ui,"Segoe UI",sans-serif; }
-  header { position:sticky; top:0; z-index:10; background:#101216; border-bottom:1px solid #2c313c;
+  header { position:sticky; top:0; z-index:10; background:#010409; border-bottom:1px solid #30363d;
            padding:10px 18px; display:flex; flex-wrap:wrap; gap:14px; align-items:center; }
   header h1 { font-size:17px; margin:0 10px 0 0; letter-spacing:1px; }
-  .tabs { display:flex; gap:6px; }
-  .tab { background:var(--card); border:1px solid #343a46; color:var(--txt); padding:4px 12px;
-         border-radius:14px; cursor:pointer; font-size:13px; }
-  .tab.on { border-color:var(--focus); color:var(--focus); }
+  .tabs { display:flex; gap:2px; }
+  .tab { background:transparent; border:1px solid transparent; border-bottom:2px solid transparent;
+         color:var(--dim); padding:5px 12px; border-radius:0; cursor:pointer; font-size:13px; }
+  .tab.on { border-bottom-color:var(--focus); color:var(--txt); }
   #prog { font-weight:600; }
   .keys { color:var(--dim); font-size:12.5px; margin-left:auto; }
-  kbd { background:#2a2f3a; border-radius:4px; padding:1px 6px; font-size:12px; }
+  kbd { background:#21262d; border-radius:4px; padding:1px 6px; font-size:12px; }
   #list { max-width:1560px; margin:0 auto; padding:14px 18px 60vh; }
   h3.family { font-size:14px; color:var(--txt); letter-spacing:.3px; font-weight:600;
-              border-bottom:1px solid #2c313c; padding-bottom:4px; margin:26px 0 6px; }
-  .card { background:var(--card); border:1px solid #30353f; border-left:5px solid #30353f;
-          border-radius:8px; padding:12px 14px; margin:10px 0; }
+              border-bottom:1px solid #30363d; padding-bottom:4px; margin:26px 0 6px; }
+  .card { background:var(--card); border:1px solid #30363d; border-left:5px solid #30363d;
+          border-radius:6px; padding:12px 14px; margin:10px 0; }
   .card.focused { border-left-color:var(--focus); background:var(--card2);
                   box-shadow:0 0 0 1px var(--focus); }
   .card.vYES  { border-left-color:var(--yes); }
@@ -575,50 +575,50 @@ PAGE = r"""<!doctype html>
   .card.vHOLD { border-left-color:var(--hold); }
   .top { display:flex; gap:10px; align-items:baseline; flex-wrap:wrap; }
   .chip { font-size:11px; font-weight:700; letter-spacing:1px; padding:2px 8px; border-radius:10px;
-          background:#2a2f3a; color:var(--dim); }
+          background:#21262d; color:var(--dim); }
   .vYES  .chip.state { background:var(--yes);  color:#fff; }
   .vNO   .chip.state { background:var(--no);   color:#fff; }
   .vFLAG .chip.state { background:var(--flag); color:#222; }
   .vHOLD .chip.state { background:var(--hold); color:#fff; }
-  .chip.num { background:#39414f; color:#cfd6e4; }
+  .chip.num { background:#30363d; color:#c9d1d9; }
   .label { font-weight:650; font-size:15.5px; }
-  .body { margin:8px 0 2px; color:#c4cad6; }
-  .body code { background:#2a2f3a; padding:0 5px; border-radius:4px; font-size:12.5px; color:#9fb3d9; }
+  .body { margin:8px 0 2px; color:#c9d1d9; }
+  .body code { background:#21262d; padding:0 5px; border-radius:4px; font-size:12.5px; color:#79c0ff; }
   .imgs { display:flex; flex-wrap:wrap; gap:10px; margin:10px 0 4px; }
   figure { margin:0; max-width:100%; }
-  figure img { background:#fff; border:1px solid #3a404d; border-radius:4px; display:block;
+  figure img { background:#fff; border:1px solid #30363d; border-radius:4px; display:block;
                max-height:480px; max-width:100%; width:auto; object-fit:contain; cursor:zoom-in; }
   .links { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
-  .links a, .links button { background:#2a2f3a; border:1px solid #3a404d; color:#9fb3d9; font-size:12.5px;
-        padding:3px 10px; border-radius:5px; text-decoration:none; cursor:pointer; }
+  .links a, .links button { background:#21262d; border:1px solid #30363d; color:#79c0ff; font-size:12.5px;
+        padding:3px 10px; border-radius:6px; text-decoration:none; cursor:pointer; }
   .links a:hover, .links button:hover { border-color:var(--focus); }
   .links button.bDel { color:#9a6a6a; border-color:#4a3a3a; margin-left:auto; }
   .links button.bDel:hover { border-color:var(--no); color:#d99; }
   .links button.bDel.arm { background:var(--no); color:#fff; border-color:var(--no); font-weight:700; }
   .acts { display:flex; gap:8px; margin-top:10px; align-items:center; flex-wrap:wrap; }
-  .acts button { border:none; border-radius:6px; padding:6px 16px; font-weight:700; cursor:pointer;
-                 color:#fff; font-size:13px; }
-  .bY { background:var(--yes); } .bN { background:var(--no); }
-  .bF { background:var(--flag); color:#222 !important; } .bH { background:var(--hold); } .bU { background:#3a404d; }
-  .note { background:#14161a; border:1px solid #3a404d; color:var(--txt); border-radius:6px;
+  .acts button { background:#21262d; border:1px solid #30363d; border-radius:6px; padding:6px 16px;
+                 font-weight:650; cursor:pointer; color:var(--dim); font-size:13px; }
+  .bY { color:var(--yes); } .bN { color:var(--no); }
+  .bF { color:var(--flag); } .bH { color:var(--hold); }
+  .note { background:#0d1117; border:1px solid #30363d; color:var(--txt); border-radius:6px;
           padding:7px 10px; font:13px/1.45 system-ui,"Segoe UI",sans-serif; display:none;
           flex:1 0 100%; min-height:84px; resize:vertical; overflow-y:auto; margin-top:6px; }
   .note.show { display:block; }
   .noteacts { display:none; flex:1 0 100%; gap:8px; align-items:center; margin-top:6px; }
   .noteacts.show { display:flex; }
-  .noteacts .bSave { background:var(--yes); color:#fff; border:none; border-radius:6px;
-                     padding:6px 16px; font-weight:700; font-size:13px; cursor:pointer; }
-  .noteacts .bSkip { background:#3a404d; color:#fff; border:none; border-radius:6px;
+  .noteacts .bSave { background:#21262d; color:var(--yes); border:1px solid #30363d; border-radius:6px;
+                     padding:6px 16px; font-weight:650; font-size:13px; cursor:pointer; }
+  .noteacts .bSkip { background:#21262d; color:var(--dim); border:1px solid #30363d; border-radius:6px;
                      padding:6px 14px; font-size:13px; cursor:pointer; }
   .notehint { color:var(--dim); font-size:12px; }
   .chips { display:flex; flex-wrap:wrap; gap:6px; flex:1 0 100%; margin-top:6px; }
   .chips:empty { margin:0; }
   .chip-img { position:relative; display:inline-block; line-height:0; }
   .chip-img img { height:56px; width:auto; max-width:120px; object-fit:cover;
-                  border:1px solid #3a404d; border-radius:5px; display:block; cursor:default; }
+                  border:1px solid #30363d; border-radius:5px; display:block; cursor:default; }
   .chip-img .chipx { position:absolute; top:-7px; right:-7px; width:18px; height:18px; padding:0;
-                     line-height:15px; border-radius:50%; border:1px solid #555; background:#222;
-                     color:#ddd; font-size:11px; cursor:pointer; }
+                     line-height:15px; border-radius:50%; border:1px solid #30363d; background:#21262d;
+                     color:#c9d1d9; font-size:11px; cursor:pointer; }
   .notetxt { color:var(--flag); font-size:12.5px; }
   #banner { position:fixed; top:54px; left:50%; transform:translateX(-50%); background:var(--no);
             color:#fff; padding:8px 22px; border-radius:8px; display:none; z-index:99; }
@@ -840,7 +840,7 @@ function render(keepScroll) {
   FILTERS.forEach((f, i) => {
     const b = document.createElement("button");
     b.className = "tab" + (filter === f ? " on" : "");
-    b.textContent = (i+1) + " " + f + " (" + c[f] + ")";
+    b.textContent = (i+1) + " - " + f + " (" + c[f] + ")";
     b.onclick = () => { filter = f; focusId = null; noteId = null; render(); };
     tabs.appendChild(b);
   });
@@ -1067,7 +1067,7 @@ def make_demo(root):
             crop.speckle(rng, 60)
             crop.save(d / f"cluster-{ci:02d}.png")
             key = hashlib.sha256(f"{deck_name}/{ci}:{pts}".encode("utf-8")).hexdigest()[:16]
-            cards.append({"key": key, "label": f"cluster {ci:02d}: {shape}",
+            cards.append({"key": key, "label": shape,
                           "summary": f"**{n}** instances detected. Judge: are they all really a {shape}?",
                           "images": [f"cluster-{ci:02d}.png"],
                           "links": [{"label": "Full sheet", "file": "sheet.png"}]})
