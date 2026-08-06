@@ -550,6 +550,7 @@ PAGE = r"""<!doctype html>
   :root { --bg:#0d1117; --card:#161b22; --card2:#21262d; --txt:#e6edf3; --dim:#8b949e;
           --yes:#3fb950; --no:#f85149; --flag:#d29922; --hold:#a371f7; --focus:#58a6ff; }
   * { box-sizing:border-box; }
+  button { font-family:inherit; }
   body { margin:0; background:var(--bg); color:var(--txt);
          font:15px/1.45 system-ui,"Segoe UI",sans-serif; }
   header { position:sticky; top:0; z-index:10; background:#010409; border-bottom:1px solid #30363d;
@@ -561,7 +562,8 @@ PAGE = r"""<!doctype html>
   .tab.on { border-bottom-color:var(--focus); color:var(--txt); }
   #prog { font-weight:600; }
   .keys { color:var(--dim); font-size:12.5px; margin-left:auto; }
-  kbd { background:#21262d; border-radius:4px; padding:1px 6px; font-size:12px; }
+  kbd { background:#21262d; border-radius:4px; padding:1px 6px; font-size:12px;
+        font-family:ui-monospace,monospace; }
   #list { max-width:1560px; margin:0 auto; padding:14px 18px 60vh; }
   h3.family { font-size:14px; color:var(--txt); letter-spacing:.3px; font-weight:600;
               border-bottom:1px solid #30363d; padding-bottom:4px; margin:26px 0 6px; }
@@ -583,7 +585,8 @@ PAGE = r"""<!doctype html>
   .chip.num { background:#30363d; color:#c9d1d9; }
   .label { font-weight:650; font-size:15.5px; }
   .body { margin:8px 0 2px; color:#c9d1d9; }
-  .body code { background:#21262d; padding:0 5px; border-radius:4px; font-size:12.5px; color:#79c0ff; }
+  .body code { background:#21262d; padding:0 5px; border-radius:4px; font-size:12.5px; color:#79c0ff;
+               font-family:ui-monospace,monospace; }
   .imgs { display:flex; flex-wrap:wrap; gap:10px; margin:10px 0 4px; }
   figure { margin:0; max-width:100%; }
   figure img { background:#fff; border:1px solid #30363d; border-radius:4px; display:block;
