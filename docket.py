@@ -568,14 +568,15 @@ PAGE = r"""<!doctype html>
   h3.family { font-size:14px; color:var(--txt); letter-spacing:.3px; font-weight:600;
               border-bottom:1px solid #30363d; padding-bottom:4px; margin:26px 0 6px; }
   .card { background:var(--card); border:1px solid #30363d; border-left:5px solid #30363d;
-          border-radius:6px; padding:12px 14px; margin:10px 0; }
+          border-radius:6px; padding:12px 14px; margin:10px 0; position:relative; }
   .card.focused { border-left-color:var(--focus); background:var(--card2);
                   box-shadow:0 0 0 1px var(--focus); }
   .card.vYES  { border-left-color:var(--yes); }
   .card.vNO   { border-left-color:var(--no);  opacity:.85; }
   .card.vFLAG { border-left-color:var(--flag); }
   .card.vHOLD { border-left-color:var(--hold); }
-  .top { display:flex; gap:10px; align-items:baseline; flex-wrap:wrap; }
+  .top { display:flex; gap:10px; align-items:baseline; flex-wrap:wrap; padding-right:84px; }
+  .chip.state { position:absolute; top:12px; right:14px; }
   .chip { font-size:11px; font-weight:700; letter-spacing:1px; padding:2px 8px; border-radius:10px;
           background:#21262d; color:var(--dim); }
   .vYES  .chip.state { background:var(--yes);  color:#fff; }
