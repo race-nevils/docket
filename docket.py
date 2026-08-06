@@ -817,10 +817,7 @@ function card(it) {
   }
   function pinNote() {                            // Submit / Ctrl+Enter: pin note+shots, confirm, advance
     const pre = vis().findIndex(x => x.id === it.id);
-    const ns = kept.length + pending.length;
-    saveNote(() => { noteId = null;
-      toast("✎ pinned to " + labelOf(it.id) + (ns ? " · " + ns + " shot" + (ns > 1 ? "s" : "") : ""), "#2d6a2d");
-      advance(it.id, pre); });
+    saveNote(() => { noteId = null; advance(it.id, pre); });
   }
   function skipNote() {                           // Skip / Esc: leave the bare verdict, move on
     const pre = vis().findIndex(x => x.id === it.id);
@@ -936,10 +933,9 @@ function verdict(v) {
     // given -- in the pending view a verdicted card vanishes instantly, so "undo
     // what I just did" must not depend on it still being focused.
     const target = vOf(id) ? id : (lastVerdict && vOf(lastVerdict) ? lastVerdict : null);
-    if (!target) { toast("nothing to undo", "#3a404d"); return; }
+    if (!target) return;
     post(target, "UNDO", "", () => {
       if (lastVerdict === target) lastVerdict = null;
-      toast("↩ " + labelOf(target) + " back to pending", "#3a404d");
       render();
     });
     return;
