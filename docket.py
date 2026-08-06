@@ -576,7 +576,7 @@ PAGE = r"""<!doctype html>
   .card.vFLAG { border-left-color:var(--flag); }
   .card.vHOLD { border-left-color:var(--hold); }
   .top { display:flex; gap:10px; align-items:baseline; flex-wrap:wrap; padding-right:84px; }
-  .chip.state { position:absolute; top:12px; right:14px; }
+  .chip.state { position:absolute; top:12px; right:14px; border:1px solid #30363d; }
   .chip { font-size:11px; font-weight:700; letter-spacing:1px; padding:2px 8px; border-radius:10px;
           background:#21262d; color:var(--dim); }
   .vYES  .chip.state { background:var(--yes);  color:#fff; }
@@ -596,9 +596,10 @@ PAGE = r"""<!doctype html>
   .links a, .links button { background:#21262d; border:1px solid #30363d; color:#79c0ff; font-size:12.5px;
         padding:3px 10px; border-radius:6px; text-decoration:none; cursor:pointer; }
   .links a:hover, .links button:hover { border-color:var(--focus); }
-  .links button.bDel { color:#9a6a6a; border-color:#4a3a3a; margin-left:auto; }
-  .links button.bDel:hover { border-color:var(--no); color:#d99; }
-  .links button.bDel.arm { background:var(--no); color:#fff; border-color:var(--no); font-weight:700; }
+  .links:empty { display:none; }
+  .acts .bDel { color:#9a6a6a; margin-left:auto; }
+  .acts .bDel:hover { border-color:var(--no); color:#d99; }
+  .acts .bDel.arm { background:var(--no); color:#fff; border-color:var(--no); font-weight:700; }
   .acts { display:flex; gap:8px; margin-top:10px; align-items:center; flex-wrap:wrap; }
   .acts button { background:#21262d; border:1px solid #0d1117; border-radius:6px; padding:6px 16px;
                  font-weight:650; cursor:pointer; color:var(--dim); font-size:13px; }
@@ -748,11 +749,11 @@ function card(it) {
     '<div class="links">' + it.links.map(l =>
         '<a href="' + l.h + '" target="_blank" rel="noopener">' + l.t.replace(/</g,"&lt;") + ' ⧉</a>'
       ).join("") +
-      '<button class="bDel" title="hide this card everywhere (tombstone by id). Click, then click again to confirm">🗑 Delete</button>' +
     '</div>' +
     '<div class="acts">' +
       '<button class="bY">YES (Y)</button><button class="bN">NO (N)</button>' +
       '<button class="bF">FLAG (F)</button><button class="bH">HOLD (H)</button><button class="bU">UNDO (U)</button>' +
+      '<button class="bDel" title="hide this card everywhere (tombstone by id). Click, then click again to confirm">Delete</button>' +
       '<textarea class="note' + (it.id === noteId ? " show" : "") + '" rows="4" placeholder="note: paste a screenshot here. Submit or Ctrl+Enter pins, Esc skips">' +
         note.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;") + '</textarea>' +
       '<div class="chips"></div>' +
@@ -1072,7 +1073,6 @@ def make_demo(root):
             crop.save(d / f"cluster-{ci:02d}.png")
             key = hashlib.sha256(f"{deck_name}/{ci}:{pts}".encode("utf-8")).hexdigest()[:16]
             cards.append({"key": key, "label": shape,
-                          "summary": f"**{n}** instances detected. Judge: are they all really a {shape}?",
                           "images": [f"cluster-{ci:02d}.png"],
                           "links": [{"label": "Full sheet", "file": "sheet.png"}]})
         sheet.save(d / "sheet.png")
