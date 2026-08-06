@@ -596,19 +596,19 @@ PAGE = r"""<!doctype html>
   .links button.bDel:hover { border-color:var(--no); color:#d99; }
   .links button.bDel.arm { background:var(--no); color:#fff; border-color:var(--no); font-weight:700; }
   .acts { display:flex; gap:8px; margin-top:10px; align-items:center; flex-wrap:wrap; }
-  .acts button { background:#21262d; border:1px solid #30363d; border-radius:6px; padding:6px 16px;
+  .acts button { background:#21262d; border:1px solid #0d1117; border-radius:6px; padding:6px 16px;
                  font-weight:650; cursor:pointer; color:var(--dim); font-size:13px; }
-  .bY { color:var(--yes); } .bN { color:var(--no); }
-  .bF { color:var(--flag); } .bH { color:var(--hold); }
+  .acts .bY { color:var(--yes); } .acts .bN { color:var(--no); }
+  .acts .bF { color:var(--flag); } .acts .bH { color:var(--hold); }
   .note { background:#0d1117; border:1px solid #30363d; color:var(--txt); border-radius:6px;
           padding:7px 10px; font:13px/1.45 system-ui,"Segoe UI",sans-serif; display:none;
           flex:1 0 100%; min-height:84px; resize:vertical; overflow-y:auto; margin-top:6px; }
   .note.show { display:block; }
   .noteacts { display:none; flex:1 0 100%; gap:8px; align-items:center; margin-top:6px; }
   .noteacts.show { display:flex; }
-  .noteacts .bSave { background:#21262d; color:var(--yes); border:1px solid #30363d; border-radius:6px;
+  .noteacts .bSave { background:#21262d; color:var(--yes); border:1px solid #0d1117; border-radius:6px;
                      padding:6px 16px; font-weight:650; font-size:13px; cursor:pointer; }
-  .noteacts .bSkip { background:#21262d; color:var(--dim); border:1px solid #30363d; border-radius:6px;
+  .noteacts .bSkip { background:#21262d; color:var(--dim); border:1px solid #0d1117; border-radius:6px;
                      padding:6px 14px; font-size:13px; cursor:pointer; }
   .notehint { color:var(--dim); font-size:12px; }
   .chips { display:flex; flex-wrap:wrap; gap:6px; flex:1 0 100%; margin-top:6px; }
@@ -919,10 +919,10 @@ function verdict(v) {
     // All four pause for an OPTIONAL note + pasted screenshots: the verdict is
     // recorded NOW (safe even if you navigate away), then the note box opens.
     // Submit / Ctrl+Enter pins note+shots · Esc / Skip leaves the bare verdict.
-    const bg = {YES:"#2d6a2d", FLAG:"#6a5a1a", NO:"#6a2d2d", HOLD:"#473a6a"}[v];
+    // No toast here: the tab count ticking + the note box opening are the
+    // feedback; the box's own hint covers the note mechanics.
     post(id, v, (STATE[id] && STATE[id].note) || "", () => { lastVerdict = id; noteId = id;
       render(true);
-      toast(labelOf(id) + " → " + v + ". Note or screenshot optional, Submit pins, Esc skips", bg);
       openBox(id, v === "FLAG"); });
     return;
   }
