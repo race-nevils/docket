@@ -155,10 +155,10 @@ guards, and the note-media round trip.
 
 ## Non-goals
 
-Multi-user auth, cloud sync, annotation geometry (boxes and polygons), model
-training. This is the judgment step, in one file you can read in a sitting.
-The server binds to localhost by default and trusts its operator, so
-put it behind your own auth if you expose it.
+Annotation geometry (boxes and polygons) and model training are other tools'
+jobs. This is the judgment step, in one file you can read in a sitting. The
+server binds to localhost by default and trusts its operator, so put it
+behind your own auth if you expose it.
 
 ## License
 
