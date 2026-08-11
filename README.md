@@ -1,6 +1,10 @@
 # docket
 
-A keyboard-first review bench for visual evidence. One Python file, stdlib only.
+Your eye is the last filter before a bad image becomes training data. This is
+built to make that pass fast.
+
+Look at an image, judge it, say why, and never lose the verdict. One Python
+file, stdlib only.
 
 Point it at folders of images (detector output, dataset candidates, screenshots,
 render diffs, anything a human needs to judge) and work through them at keyboard
@@ -8,10 +12,6 @@ speed: **Y** yes, **N** no, **F** flag, **H** hold, **U** undo. Every verdict
 lands in an append-only JSONL log beside a frozen, content-addressed copy of the
 exact pixels you judged, and any verdict can carry a note with screenshots
 pasted straight into it.
-
-Built for the human-in-the-loop step of ML dataset curation, where the labeling
-platforms are heavyweight and the actual job is to look at an image, call it,
-say why, and never lose the answer.
 
 ![demo](docs/demo.gif)
 
