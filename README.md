@@ -31,6 +31,7 @@ flowchart TD
     B --> C[You judge in the browser<br/>one keystroke per verdict]
     C -->|verdict| D[evidence/ stores a copy of the judged images<br/>named by their sha256]
     D --> E[verdicts.jsonl<br/>append-only, one line per verdict]
+    E -->|flags + notes drive rework<br/>a changed card returns as pending| A
 ```
 
 ## Decks and cards
