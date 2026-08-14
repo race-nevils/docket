@@ -28,10 +28,9 @@ serves it.
 ```mermaid
 flowchart TD
     A[Folders of images<br/>loose or described by cards.json] --> B[docket.py serves decks<br/>one card per image or per entry]
-    B --> C[You judge in the browser<br/>Y · N · F · H · U + notes]
-    C -->|verdict| D[evidence/ freezes the exact bytes<br/>named by sha256, before the log line lands]
-    D --> E[verdicts.jsonl<br/>append-only, fsync'd]
-    E -->|replay derives state| B
+    B --> C[You judge in the browser<br/>one keystroke per verdict]
+    C -->|verdict| D[evidence/ stores a copy of the judged images<br/>named by their sha256]
+    D --> E[verdicts.jsonl<br/>append-only, one line per verdict]
 ```
 
 ## Decks and cards
